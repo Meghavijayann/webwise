@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up Page</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: rgba(0, 171, 14, 0.158);
+      background-size: 400% 400%;
+      animation: backgroundShift 15s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #5a2a83;
+      text-align: center;
+      padding: 20px;
+    }
+
+    @keyframes backgroundShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fadeInDown {
+      animation: fadeInDown 1.2s ease forwards;
+    }
+
+    .fadeInUp {
+      animation: fadeInUp 1.5s ease forwards;
+    }
+
+    .signup-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      max-width: 400px;
+      width: 100%;
+      animation: fadeInUp 2s ease forwards;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: black;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      text-align: left;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #00838F;
+      color: white;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #104d53;
+    }
+
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      background-color: #00838F;
+      padding: 6px 12px;
+      border-radius: 6px;
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: #174c51;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="{{ url_for('home') }}" class="back-link"><b>Back</b></a>
+
+  <div class="signup-container fadeInUp">
+    <h2 class="fadeInDown">Create an account</h2>
+    <form method="post">
+      <label for="username">Name</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="email">Email Id</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="mobile_number">Mobile Number</label>
+      <input type="tel" id="mobile_number" name="mobile_number" required>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+</body>
+</html>

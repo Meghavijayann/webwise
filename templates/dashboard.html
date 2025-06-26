@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: rgba(0, 171, 14, 0.158);
+      animation: backgroundShift 25s ease-in-out infinite;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .slide-in {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .back-header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      background-color: #00838F;
+      padding: 6px 12px;
+      border-radius: 4px;
+      display: inline-block;
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: #0a4146;
+    }
+
+    .header {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .domain-btn,
+    #profileBtn,
+    #logoutBtn,
+    #aboutBtn {
+      background-color: #00838F;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .domain-btn:hover,
+    #profileBtn:hover,
+    #logoutBtn:hover,
+    #aboutBtn:hover {
+      background-color: #0a4146;
+      transform: scale(1.02);
+    }
+
+    h2 {
+      color: black;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      max-width: 900px;
+      width: 100%;
+      text-align: center;
+    }
+
+.domains {
+  position: relative; /* Add this */
+  z-index: 10;         /* Add this */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+  width: 100%;
+}
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      z-index: 2;
+    }
+
+    .dropdown .domain-btn {
+      width: 100%;
+      text-align: left;
+    }
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  min-width: 160px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 9999; /* Make sure it floats above all */
+  flex-direction: column;
+}
+    
+
+    .dropdown-content a {
+      color: #5a2a83;
+      padding: 10px 16px;
+      text-decoration: none;
+      display: block;
+      font-weight: 600;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f3c3ff;
+      color: black;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .greeting-header {
+      width: 100%;
+      margin-top: 80px;
+      margin-bottom: 40px;
+      padding-left: 20px;
+      text-align: left;
+    }
+
+    .greeting-header h1 {
+      font-size: 40px;
+      color:black;
+      font-weight: bold;
+    }
+
+    .content-split {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      max-width: 900px;
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    .left-side, .right-side {
+      flex: 1;
+      background-color: white;
+      color: #5a2a83;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #f3f0fa;
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border:1px solid black;
+
+    }
+
+    .card h4 {
+      margin-bottom: 8px;
+      color: #4A148C;
+      
+    }
+
+    .card p {
+      font-size: 15px;
+      color: #333;
+    }
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #082427;
+  color: white;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 15px;
+  z-index: 999;
+  border-top: 2px solid #006f7a;
+}
+
+
+  </style>
+</head>
+<body>
+<div class="back-header">
+  <a href="{{ url_for('home') }}" class="back-link fade-in" style="animation-delay: 0.5s;"><b>Back</b></a>
+</div>
+
+<div class="greeting-header fade-in" style="animation-delay: 0.8s;">
+  <h1>👋 Hello, {{ username }}!</h1>
+</div>
+
+<div class="dashboard">
+  <div class="header fade-in" style="animation-delay: 0.5s;">
+    <button id="aboutBtn">About</button>
+    <button id="profileBtn">Profile</button>
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <h2 class="slide-in" style="animation-delay: 1s;">🚀 Ready to Explore the World of Web Development? Start Your Journey Here!</h2>
+
+  <div class="domains slide-in" style="animation-delay: 1.5s;">
+    <div class="dropdown">
+      <button class="domain-btn">Quiz ▼</button>
+      <div class="dropdown-content">
+        <a href="/quiz/html">HTML</a>
+        <a href="/quiz/css">CSS</a>
+        <a href="/quiz/javascript">JavaScript</a>
+      </div>
+    </div>
+    <button class="domain-btn">Video Lectures</button>
+    <button class="domain-btn">Lecture links</button>
+    <button class="domain-btn">Platforms</button>
+
+    
+  </div>
+  <!-- More to Know section -->
+<div class="fade-in" style="animation-delay: 1.8s; margin-top: 30px; text-align: center;">
+  <h2 style="font-size: 1.6rem; color: #333;">📘 More to Know <span style="font-size: 1.8rem;">👇</span></h2>
+  <p style="color: #222; max-width: 800px; margin: 10px auto;">
+    Boost your understanding by exploring real-world project ideas and step-by-step learning guides curated just for you.
+  </p>
+</div>
+
+
+<!-- Add Task Section -->
+<div class="left-side" style="margin-top: 40px; width: 100%; max-width: 900px;">
+  <h3 style="color:black">📝 Add my Tasks</h3>
+
+  <form method="POST" action="/dashboard" style="margin-bottom: 20px;">
+    <input type="text" name="task" placeholder="Enter a task..." required style="padding: 10px; width: 70%; border-radius: 6px; border: 1px solid #ccc;">
+    <button type="submit" style="padding: 10px 20px; background-color: #00838F; color: white; border: none; border-radius: 6px;">Add Task</button>
+  </form>
+
+  {% if tasks %}
+    <ul style="list-style: none; padding: 0;">
+      {% for task in tasks %}
+        <li style="background: #f3f0fa; color: #333; padding: 10px 15px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border:1px solid black;">
+          <span>{{ task.task }}</span>
+          <a href="/delete_task/{{ task.id }}" style="color: red; font-weight: bold; text-decoration: none;">🗑 Delete</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p style="color:black;">No tasks yet. Add your first one above!</p>
+  {% endif %}
+</div>
+
+
+  <!-- Content Split Below -->
+  <div class="content-split">
+<div class="left-side">
+  <h3 style="color:black">💡 Project Ideas</h3><br>
+  <!-- cards here -->
+           <div class="card">
+        <h4>HTML Project 1</h4>
+        <p>Create a personal portfolio webpage with sections like About, Skills, and Contact.</p>
+      </div>
+      <div class="card">
+    <h4>HTML Project 2</h4>
+    <p>Design a basic resume layout with headings, lists, and links.</p>
+  </div>
+  <div class="card">
+    <h4>HTML Project 3</h4>
+    <p>Build a simple blog page structure with multiple article previews.</p>
+  </div>
+      <div class="card">
+        <h4>CSS Project 1</h4>
+        <p>Build a responsive grid-based layout with styled cards using Flexbox and Grid.</p>
+      </div>
+      <div class="card">
+    <h4>CSS Project 2</h4>
+    <p>Build a styled pricing table with hover effects and color themes.</p>
+  </div>
+  <div class="card">
+    <h4>CSS Project 3</h4>
+    <p>Design a navigation bar with dropdown and animated underline effect.</p>
+  </div>
+      <div class="card">
+        <h4>JavaScript Project 1</h4>
+        <p>Make an interactive quiz app that stores high scores in local storage.</p>
+      </div>
+      <div class="card">
+    <h4>JavaScript Project 2</h4>
+    <p>Create a to-do list app with add, delete, and checkbox status toggle.</p>
+  </div>
+  <div class="card">
+    <h4>JavaScript Project 3</h4>
+    <p>Make a digital clock that updates in real-time using setInterval.</p>
+  </div>
+</div>
+
+
+<div class="left-side">
+  <h3 style="color:black">🌐 Learning Guidelines</h3><br>
+  <!-- cards here -->
+         <div class="card">
+    <h4>Step 1: Web Basics</h4>
+    <p>Understand what front-end web development is. HTML provides structure, CSS handles style, and JavaScript adds interactivity. Together they build everything you see on a webpage.</p>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="card">
+    <h4>Step 2: Learn HTML</h4>
+    <p>Start with common tags like <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>, and <code>&lt;form&gt;</code>. Learn how to create semantic layouts and use attributes properly.</p>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="card">
+    <h4>Step 3: Learn CSS</h4>
+    <p>Use selectors, colors, fonts, margins, and padding to style your HTML. Master Flexbox and Grid for responsive layouts. Learn how to apply themes and hover effects.</p>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="card">
+    <h4>Step 4: Learn JavaScript</h4>
+    <p>Grasp the fundamentals like variables, loops, functions, and conditionals. Learn to handle events like button clicks and form submissions. Use JavaScript to change content dynamically using the DOM.</p>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="card">
+    <h4>Step 5: Practice & Projects</h4>
+    <p>Apply what you learned by building small projects. Practice regularly to solidify concepts. Use resources like <strong>W3Schools</strong>, <strong>FreeCodeCamp</strong>, and <strong>MDN Web Docs</strong> for guidance.</p>
+  </div>
+</div>
+
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Navigation button clicks
+    document.getElementById('profileBtn').onclick = () => window.location.href = '/profile';
+    document.getElementById('logoutBtn').onclick = () => window.location.href = '/logout';
+    document.getElementById('aboutBtn').onclick = () => window.location.href = '/about';
+
+    // Domain buttons
+    document.querySelectorAll('.domain-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.textContent.trim().toLowerCase();
+        if (text === 'video lectures') window.location.href = '/video_lectures';
+        else if (text === 'lecture links') window.location.href = '/lecture_links';
+        else if (text === 'sample images') window.location.href = '/sample_images';
+        else if (text === 'platforms') window.location.href = '/platforms';
+      });
+    });
+
+  });
+</script>
+<footer class="site-footer">
+  <p>&copy; 2025 @webwise.com | Contact us at +91 98765 43210</p>
+</footer>
+
+</body>
+</html>
+
+

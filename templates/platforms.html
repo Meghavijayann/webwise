@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Beginner Platforms for HTML/CSS/JS</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: rgba(0, 171, 14, 0.158);
+      background-size: 400% 400%;
+      animation: backgroundShift 20s ease-in-out infinite;
+      padding: 40px;
+      color: #4a4a4a;
+    }
+
+    h2, h3 {
+      color: black;
+      margin-bottom: 15px;
+    }
+
+    .link-section {
+      margin-bottom: 40px;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    ol {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      background-color: #00838F;
+      padding: 6px 12px;
+      border-radius: 4px;
+      display: inline-block;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .back-link:hover {
+      background-color: #0c4045;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="{{ url_for('dashboard') }}" class="back-link">Back</a>
+
+  <h2>Best Platforms to Code HTML, CSS & JS (Beginner-Friendly)</h2>
+
+  <div class="link-section">
+    <h3>1. <a href="https://codepen.io" target="_blank">CodePen</a></h3>
+    <ol>
+      <li>Real-time live preview of HTML/CSS/JS</li>
+      <li>Great for creative and visual projects</li>
+      <li>Massive community examples</li>
+    </ol>
+  </div>
+
+  <div class="link-section">
+    <h3>2. <a href="https://jsfiddle.net" target="_blank">JSFiddle</a></h3>
+    <ol>
+      <li>Quick setup and minimal interface</li>
+      <li>Supports external libraries like jQuery, Bootstrap</li>
+      <li>Perfect for testing code snippets</li>
+    </ol>
+  </div>
+
+  <div class="link-section">
+    <h3>3. <a href="https://replit.com" target="_blank">Replit</a></h3>
+    <ol>
+      <li>Online IDE with real project structure</li>
+      <li>Can run HTML/JS/CSS + backend languages</li>
+      <li>Supports collaboration and deployment</li>
+    </ol>
+  </div>
+
+  <div class="link-section">
+    <h3>4. <a href="https://glitch.com" target="_blank">Glitch</a></h3>
+    <ol>
+      <li>Great for full-stack beginner projects</li>
+      <li>Live preview + public link</li>
+      <li>Remix other people’s apps easily</li>
+    </ol>
+  </div>
+
+  <div class="link-section">
+    <h3>5. <a href="https://playcode.io" target="_blank">PlayCode</a></h3>
+    <ol>
+      <li>Fast and responsive real-time preview</li>
+      <li>No sign-up required for basic use</li>
+      <li>Great for practicing JavaScript logic</li>
+    </ol>
+  </div>
+
+  <div class="link-section">
+    <h3>6. <a href="https://html-online.com/editor/" target="_blank">HTML Online Editor</a></h3>
+    <ol>
+      <li>Best for learning HTML/CSS structure</li>
+      <li>See raw HTML and live preview side-by-side</li>
+      <li>Simple and beginner-focused</li>
+    </ol>
+  </div>
+
+</body>
+</html>

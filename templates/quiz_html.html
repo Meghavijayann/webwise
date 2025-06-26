@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+  body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgba(0, 171, 14, 0.158);
+  background-size: 300% 300%;
+  animation: backgroundShift 25s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  min-height: 100vh;
+  color: #f3c3ff; /* Light text */
+}
+
+
+
+.quiz-container {
+    background: white;
+    padding: 20px;
+    width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(11, 12, 12);
+    padding: 5px;
+}
+
+.option {
+    background: #ac7dd4;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.option:hover {
+    background-color: #421d5c;
+}
+
+.correct {
+    background-color: green !important;
+    color: white;
+}
+
+.incorrect {
+    background-color: red !important;
+    color: white;
+}
+
+#nextBtn {
+    padding: 10px 20px;
+    background: #5a2a83;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    border: none;
+}
+
+#nextBtn:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+#score {
+    font-size: 14px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+#resetBtn {
+    display: none;
+    padding: 10px 20px;
+    background: #5a2a83;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    border: none;
+}
+
+#resetBtn:hover {
+    background: #eabcff;
+}
+
+#progressContainer {
+    background-color: #f7f8e7;
+    width: 100%;
+    border-radius: 20px;
+    height: 20px;
+    margin-top: 20px;
+}
+
+#progressBar {
+    width: 0%;
+    background-color: yellowgreen;
+    height: 100%;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    transition: width 0.4s ease;
+}
+    .back-header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .back-link {
+      text-decoration: none;
+      
+      color: white;
+      font-size: 16px;
+      background-color: #00838F;
+      padding: 6px 12px;
+      border-radius: 4px;
+      display: inline-block;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: #0f3f44;
+    }
+
+
+</style>
+
+</head>
+<body><div class="back-header">
+<a href="{{ url_for('dashboard') }}" class="back-link" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <b>Back</b>
+</a></div>
+    <h1 style="  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: black">Here's your quiz on HTML....</h1>
+
+    <div class="quiz-container">
+        <div id="progressContainer">
+            <div id="progressBar"></div>
+        </div>
+        <h2 id="question">Question text here</h2>
+        <div id="options"></div>
+        
+        <button id="nextBtn">Next</button>
+        
+        <div id="score"></div>
+        <button id="resetBtn">Reset Quiz</button>
+
+    </div>
+   <script> 
+const questions = [
+  {
+    question: "What does HTML stand for?",
+    options: ["HyperText Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language", "Hyper Transfer Markup Language"],
+    answer: "HyperText Markup Language"
+  },
+  {
+    question: "Which tag is used to insert an image in HTML?",
+    options: ["<img>", "<image>", "<pic>", "<src>"],
+    answer: "<img>"
+  },
+  {
+    question: "What is the correct HTML element for inserting a line break?",
+    options: ["<break>", "<br>", "<lb>", "<newline>"],
+    answer: "<br>"
+  },
+  {
+    question: "Which tag defines the largest heading in HTML?",
+    options: ["<heading>", "<h1>", "<head>", "<h6>"],
+    answer: "<h1>"
+  },
+  {
+    question: "What is the correct HTML for making a checkbox?",
+    options: ["<input type='checkbox'>", "<checkbox>", "<check>", "<input checkbox>"],
+    answer: "<input type='checkbox'>"
+  },
+  {
+    question: "Which tag is used to create a hyperlink?",
+    options: ["<a>", "<link>", "<href>", "<url>"],
+    answer: "<a>"
+  },
+  {
+    question: "Which HTML element is used to define a table row?",
+    options: ["<tr>", "<td>", "<th>", "<table>"],
+    answer: "<tr>"
+  },
+  {
+    question: "What does the 'alt' attribute in an image tag do?",
+    options: ["Specifies alternative text", "Aligns the image", "Sets image size", "Adds animation"],
+    answer: "Specifies alternative text"
+  },
+  {
+    question: "Which element is used to create an unordered list?",
+    options: ["<ul>", "<ol>", "<list>", "<li>"],
+    answer: "<ul>"
+  },
+  {
+    question: "Which tag is used to define a table header?",
+    options: ["<th>", "<tr>", "<td>", "<thead>"],
+    answer: "<th>"
+  },
+  {
+    question: "How do you create a numbered list?",
+    options: ["<ol>", "<ul>", "<li>", "<list>"],
+    answer: "<ol>"
+  },
+  {
+    question: "Which tag is used to define a paragraph?",
+    options: ["<p>", "<para>", "<paragraph>", "<pg>"],
+    answer: "<p>"
+  },
+  {
+    question: "What is the correct HTML element to insert a comment?",
+    options: ["<!-- Comment -->", "// Comment", "# Comment", "<comment>"],
+    answer: "<!-- Comment -->"
+  },
+  {
+    question: "Which tag is used to define an internal stylesheet?",
+    options: ["<style>", "<css>", "<script>", "<link>"],
+    answer: "<style>"
+  },
+  {
+    question: "Which attribute is used to specify a unique identifier for an element?",
+    options: ["id", "class", "name", "style"],
+    answer: "id"
+  },
+  {
+    question: "Which HTML element is used to display preformatted text?",
+    options: ["<pre>", "<code>", "<text>", "<format>"],
+    answer: "<pre>"
+  },
+  {
+    question: "What is the correct HTML element for inserting a horizontal line?",
+    options: ["<hr>", "<line>", "<br>", "<border>"],
+    answer: "<hr>"
+  },
+  {
+    question: "Which tag is used to embed a video in HTML5?",
+    options: ["<video>", "<media>", "<vid>", "<movie>"],
+    answer: "<video>"
+  },
+  {
+    question: "Which tag is used for input fields in a form?",
+    options: ["<input>", "<textfield>", "<forminput>", "<entry>"],
+    answer: "<input>"
+  },
+  {
+    question: "Which tag is used to create a dropdown list?",
+    options: ["<select>", "<dropdown>", "<list>", "<option>"],
+    answer: "<select>"
+  }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let highScore=localStorage.getItem('highScore')||0;
+let shuffledQuestions = shuffleArray([...questions]);
+
+const progressBar = document.getElementById("progressBar");
+const questionE1 = document.getElementById("question");
+const optionsE1 = document.getElementById("options");
+const nextBtn = document.getElementById("nextBtn");
+const scoreE1 = document.getElementById("score");
+const resetBtn = document.getElementById("resetBtn");
+
+function loadQuestion() {
+    questionE1.textContent = shuffledQuestions[currentQuestion].question;
+    optionsE1.innerHTML = "";
+
+    shuffledQuestions[currentQuestion].options.forEach(optionText => {
+        const option = document.createElement('div');
+        option.className = 'option';
+        option.textContent = optionText;
+        option.addEventListener('click', () => selectOption(option, optionText));
+        optionsE1.appendChild(option);
+    });
+
+    updateProgressBar();
+}
+
+function selectOption(selectedE1, selectedAnswer) {
+    const correctAnswer = shuffledQuestions[currentQuestion].answer;
+
+    // Disable all options after selection
+    Array.from(optionsE1.children).forEach(option => {
+        option.style.pointerEvents = 'none';
+        if (option.textContent === correctAnswer) {
+            option.classList.add('correct');
+        } else {
+            option.classList.add('incorrect');
+        }
+    });
+
+    // If correct answer selected, increment score
+    if (selectedAnswer === correctAnswer) {
+        score++;
+    }
+
+    // Enable the next button
+    nextBtn.disabled = false;
+}
+
+nextBtn.addEventListener('click', () => {
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+        loadQuestion();
+        nextBtn.disabled = true;
+    } else {
+        showScore();
+    }
+});
+
+resetBtn.addEventListener('click', () => {
+    currentQuestion = 0;
+    score = 0;
+    scoreE1.textContent = "";
+    nextBtn.style.display = 'inline-block';
+    resetBtn.style.display = 'none';
+    shuffledQuestions = shuffleArray([...questions]);
+    loadQuestion();
+    nextBtn.disabled = true;
+});
+
+
+function showScore() {
+    questionE1.textContent = "Quiz completed";
+    optionsE1.innerHTML = "";
+    nextBtn.style.display = 'none';
+
+    let message = "";
+    if (score === shuffledQuestions.length) {
+        message = "🔥🔥 Perfect Score! Great job!";
+      
+    } else if (score < shuffledQuestions.length / 2) {
+        message = "🫠🫠 Better luck next time!";
+    
+    } else {
+        message = "💫💫 Good Effort!";
+    }
+
+    
+    scoreE1.innerHTML = `Your score: ${score} out of ${shuffledQuestions.length}<br>${message}`;
+if (score > highScore) {
+    localStorage.setItem('highScore', score);
+    highScore = score;
+    scoreE1.innerHTML += `<br>New High Score!`;
+} else {
+    scoreE1.innerHTML += `<br>High Score: ${highScore}`;
+}
+
+
+
+
+
+
+    resetBtn.style.display = 'inline-block';
+    progressBar.style.width = "100%";
+    progressBar.textContent = "Done";
+  
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function updateProgressBar() {
+    const progress = ((currentQuestion + 1) / shuffledQuestions.length) * 100;
+    progressBar.style.width = `${progress}%`; // ✅ Fix: use backticks and `${}`
+    progressBar.textContent = `${currentQuestion + 1}/${shuffledQuestions.length}`; // ✅ Fix
+}
+
+loadQuestion();
+nextBtn.disabled = true;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us - CodeNest Tutorials</title>
+  <style>
+    /* Base reset and font */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Light animated background */
+    body {
+      background-color: rgba(0, 171, 14, 0.158);
+      animation: backgroundShift 25s ease-in-out infinite;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    @keyframes backgroundShift {
+      0% { background-position: 0 0; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0 0; }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .slide-in {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .back-header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      background-color: #00838f;
+      padding: 6px 12px;
+      border-radius: 4px;
+      display: inline-block;
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: #0b3235;
+    }
+
+    .about-container {
+      background-color: whitesmoke;
+      color: #5a2a83;
+      padding: 40px 50px;
+      margin-top: 100px;
+      border-radius: 12px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .about-container h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+      color: black;
+    }
+
+    .about-container h3 {
+      margin-top: 30px;
+      font-size: 1.5rem;
+      color: #5a2a83;
+    }
+
+    .about-container p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .features-list {
+      margin-top: 20px;
+      padding-left: 20px;
+    }
+
+    .features-list li {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="back-header">
+    <a href="{{ url_for('dashboard') }}" class="back-link"><b>Back</b></a>
+  </div>
+
+  <div class="about-container fade-in">
+    <h1>👨‍💻 About us</h1>
+    <p>
+      Welcome to <strong>Webwise</strong> – your go-to platform for mastering <strong>Web Development</strong> with ease and confidence!
+    </p>
+
+    <h3>🚀 What We Offer</h3>
+    <ul class="features-list">
+      <li>🎥 <strong>Video Lectures</strong> – Learn at your pace through beginner-friendly, structured tutorials.</li>
+      <li>🔗 <strong>Lecture Links</strong> – Access handpicked references and documentation to go deeper into each concept.</li>
+      <li>📝 <strong>Interactive Quizzes</strong> – Practice and test your skills with topic-wise challenges.</li>
+    </ul>
+
+    <h3>💡 Our Mission</h3>
+    <p>
+      Our mission is to empower learners with <strong>practical web development skills</strong>. Whether you're a student, a career switcher, or a curious mind, we're here to guide you every step of the way.
+    </p>
+  </div>
+
+</body>
+</html>

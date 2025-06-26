@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgba(0, 171, 14, 0.158);
+  background-size: 300% 300%;
+  animation: backgroundShift 25s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  min-height: 100vh;
+  color: #f3c3ff; /* Light text */
+}
+
+
+.quiz-container {
+    background: white;
+    padding: 20px;
+    width: 700px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(11, 12, 12);
+    padding: 5px;
+}
+
+.option {
+    background: #ac7dd4;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.option:hover {
+    background-color: #421d5c;
+}
+
+.correct {
+    background-color: green !important;
+    color: white;
+}
+
+.incorrect {
+    background-color: red !important;
+    color: white;
+}
+
+#nextBtn {
+    padding: 10px 20px;
+    background: #5a2a83;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    border: none;
+}
+
+#nextBtn:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+#score {
+    font-size: 14px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+#resetBtn {
+    display: none;
+    padding: 10px 20px;
+    background: #5a2a83;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    border: none;
+}
+
+#resetBtn:hover {
+    background: #eabcff;
+}
+
+#progressContainer {
+    background-color: #f7f8e7;
+    width: 100%;
+    border-radius: 20px;
+    height: 20px;
+    margin-top: 20px;
+}
+
+#progressBar {
+    width: 0%;
+    background-color:yellowgreen;
+    height: 100%;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    transition: width 0.4s ease;
+}
+    .back-header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .back-link {
+      text-decoration: none;
+      
+      color: white;
+      font-size: 16px;
+      background-color: #00838F;
+      padding: 6px 12px;
+      border-radius: 4px;
+      display: inline-block;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: #0f4246;
+    }
+
+
+</style>
+
+</head>
+<body><div class="back-header">
+<a href="{{ url_for('dashboard') }}" class="back-link" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <b>Back</b>
+</a></div>
+    <h1 style="  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: black">Here's your quiz on Javascript....</h1>
+
+    <div class="quiz-container">
+        <div id="progressContainer">
+            <div id="progressBar"></div>
+        </div>
+        <h2 id="question">Question text here</h2>
+        <div id="options"></div>
+        
+        <button id="nextBtn">Next</button>
+        
+        <div id="score"></div>
+        <button id="resetBtn">Reset Quiz</button>
+
+    </div>
+    
+    <script>const questions = [
+  {
+    question: "What is the correct syntax to output 'Hello World' in JavaScript?",
+    options: ["print('Hello World')", "console.log('Hello World')", "echo('Hello World')", "printf('Hello World')"],
+    answer: "console.log('Hello World')"
+  },
+  {
+    question: "Which keyword is used to declare a variable in JavaScript?",
+    options: ["var", "let", "const", "All of the above"],
+    answer: "All of the above"
+  },
+  {
+    question: "How do you create a function in JavaScript?",
+    options: ["function myFunc()", "create myFunc()", "def myFunc()", "function:myFunc()"],
+    answer: "function myFunc()"
+  },
+  {
+    question: "What data type is returned by `typeof null`?",
+    options: ["null", "object", "undefined", "boolean"],
+    answer: "object"
+  },
+  {
+    question: "How do you write an if statement in JavaScript?",
+    options: ["if i == 5 then", "if (i === 5)", "if i = 5", "if i == 5 {}"],
+    answer: "if (i === 5)"
+  },
+  {
+    question: "Which symbol is used for single-line comments in JavaScript?",
+    options: ["<!-- -->", "//", "/* */", "#"],
+    answer: "//"
+  },
+  {
+    question: "What will `Boolean('0')` return?",
+    options: ["false", "true", "undefined", "null"],
+    answer: "true"
+  },
+  {
+    question: "Which array method removes the last element from an array?",
+    options: ["pop()", "push()", "shift()", "remove()"],
+    answer: "pop()"
+  },
+  {
+    question: "How do you convert a string to an integer in JavaScript?",
+    options: ["parseInt()", "Number()", "Both A and B", "stringToInt()"],
+    answer: "Both A and B"
+  },
+  {
+    question: "What is the result of '2' + 2?",
+    options: ["4", "22", "NaN", "undefined"],
+    answer: "22"
+  },
+  {
+    question: "How do you check if two variables are strictly equal?",
+    options: ["=", "==", "===", "!=="],
+    answer: "==="
+  },
+  {
+    question: "Which object is used for math operations in JavaScript?",
+    options: ["Math", "Calc", "Number", "Arithmetic"],
+    answer: "Math"
+  },
+  {
+    question: "What is the default value of an uninitialized variable?",
+    options: ["null", "0", "undefined", "false"],
+    answer: "undefined"
+  },
+  {
+    question: "How do you write a loop that runs exactly 5 times?",
+    options: [
+      "for (i = 1; i < 5; i++)",
+      "for (i = 0; i < 5; i++)",
+      "for (i = 0; i <= 5; i++)",
+      "while (i < 5)"
+    ],
+    answer: "for (i = 0; i < 5; i++)"
+  },
+  {
+    question: "Which keyword stops a loop in JavaScript?",
+    options: ["stop", "exit", "break", "return"],
+    answer: "break"
+  },
+  {
+    question: "What is the output of `typeof NaN`?",
+    options: ["number", "NaN", "undefined", "object"],
+    answer: "number"
+  },
+  {
+    question: "Which function converts JSON data into a JavaScript object?",
+    options: ["JSON.parse()", "JSON.stringify()", "JSON.decode()", "parse.JSON()"],
+    answer: "JSON.parse()"
+  },
+  {
+    question: "What does `setTimeout()` do?",
+    options: [
+      "Executes a function after a delay",
+      "Repeats a function continuously",
+      "Stops the program",
+      "Pauses execution indefinitely"
+    ],
+    answer: "Executes a function after a delay"
+  },
+  {
+    question: "Which operator is used for logical AND in JavaScript?",
+    options: ["&&", "||", "&", "and"],
+    answer: "&&"
+  },
+  {
+    question: "How can you detect the type of a variable?",
+    options: ["typeof", "type()", "getType()", "detect()"],
+    answer: "typeof"
+  }
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let highScore=localStorage.getItem('highScore')||0;
+let shuffledQuestions = shuffleArray([...questions]);
+
+const progressBar = document.getElementById("progressBar");
+const questionE1 = document.getElementById("question");
+const optionsE1 = document.getElementById("options");
+const nextBtn = document.getElementById("nextBtn");
+const scoreE1 = document.getElementById("score");
+const resetBtn = document.getElementById("resetBtn");
+
+function loadQuestion() {
+    questionE1.textContent = shuffledQuestions[currentQuestion].question;
+    optionsE1.innerHTML = "";
+
+    shuffledQuestions[currentQuestion].options.forEach(optionText => {
+        const option = document.createElement('div');
+        option.className = 'option';
+        option.textContent = optionText;
+        option.addEventListener('click', () => selectOption(option, optionText));
+        optionsE1.appendChild(option);
+    });
+
+    updateProgressBar();
+}
+
+function selectOption(selectedE1, selectedAnswer) {
+    const correctAnswer = shuffledQuestions[currentQuestion].answer;
+
+    // Disable all options after selection
+    Array.from(optionsE1.children).forEach(option => {
+        option.style.pointerEvents = 'none';
+        if (option.textContent === correctAnswer) {
+            option.classList.add('correct');
+        } else {
+            option.classList.add('incorrect');
+        }
+    });
+
+    // If correct answer selected, increment score
+    if (selectedAnswer === correctAnswer) {
+        score++;
+    }
+
+    // Enable the next button
+    nextBtn.disabled = false;
+}
+
+nextBtn.addEventListener('click', () => {
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+        loadQuestion();
+        nextBtn.disabled = true;
+    } else {
+        showScore();
+    }
+});
+
+resetBtn.addEventListener('click', () => {
+    currentQuestion = 0;
+    score = 0;
+    scoreE1.textContent = "";
+    nextBtn.style.display = 'inline-block';
+    resetBtn.style.display = 'none';
+    shuffledQuestions = shuffleArray([...questions]);
+    loadQuestion();
+    nextBtn.disabled = true;
+});
+
+
+function showScore() {
+    questionE1.textContent = "Quiz completed";
+    optionsE1.innerHTML = "";
+    nextBtn.style.display = 'none';
+
+    let message = "";
+    if (score === shuffledQuestions.length) {
+        message = "🔥🔥 Perfect Score! Great job!";
+      
+    } else if (score < shuffledQuestions.length / 2) {
+        message = "🫠🫠 Better luck next time!";
+    
+    } else {
+        message = "💫💫 Good Effort!";
+    }
+
+    
+    scoreE1.innerHTML = `Your score: ${score} out of ${shuffledQuestions.length}<br>${message}`;
+if (score > highScore) {
+    localStorage.setItem('highScore', score);
+    highScore = score;
+    scoreE1.innerHTML += `<br>New High Score!`;
+} else {
+    scoreE1.innerHTML += `<br>High Score: ${highScore}`;
+}
+
+
+
+
+
+
+    resetBtn.style.display = 'inline-block';
+    progressBar.style.width = "100%";
+    progressBar.textContent = "Done";
+  
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function updateProgressBar() {
+    const progress = ((currentQuestion + 1) / shuffledQuestions.length) * 100;
+    progressBar.style.width = `${progress}%`; // ✅ Fix: use backticks and `${}`
+    progressBar.textContent = `${currentQuestion + 1}/${shuffledQuestions.length}`; // ✅ Fix
+}
+
+loadQuestion();
+nextBtn.disabled = true;
+</script>
+
+</body>
+</html>

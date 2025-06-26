@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: rgba(0, 171, 14, 0.158);
+      background-size: 400% 400%;
+      animation: gradientFlow 15s ease infinite;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: black;
+      animation: fadeInDown 1.2s ease forwards;
+      margin: 40px 0 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #00838F;
+      color: white;
+      padding: 14px 30px;
+      margin: 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      animation: fadeInUp 2.8s ease forwards;
+    }
+
+    .button:hover {
+      background-color: #0a4146;
+      transform: scale(1.05);
+    }
+
+    .alert {
+      background-color: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+      padding: 12px 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      font-weight: 600;
+      margin: 20px auto;
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    /* Info Section */
+    .info-section {
+      margin-top: 80px;
+      padding: 20px;
+      animation: fadeInUp 2.5s ease forwards;
+    }
+
+    .info-section h2 {
+      font-size: 2rem;
+      margin-bottom: 40px;
+      color: black;
+    }
+
+    .info-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 20px;
+      max-width: 280px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+      color: black;
+      backdrop-filter: blur(4px);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .card img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      color: #00838F;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 1rem;
+      color: #222;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .info-cards {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .card {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎉 WELCOME TO WEBWISE 🚀</h1>
+  <p><b>🧠 Test your knowledge, 💥 challenge yourself,<br> and ✨ level up your web skills with fun quizzes!</b></p>
+
+  <a href="/sign" class="button">📝 Signup</a>
+  <a href="/lpage" class="button">🔐 Login</a>
+
+  <!-- Info Section -->
+  <section class="info-section">
+    <div class="info-cards">
+      
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Learning Icon">
+        <h3>📚 Learn</h3>
+        <p>Gain strong fundamentals in HTML, CSS, and JavaScript with interactive quizzes and structured lessons.</p>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/3105/3105608.png" alt="Build Icon">
+        <h3>🛠️ Build</h3>
+        <p>Create real-world projects and apply your knowledge to solidify your web development skills.</p>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1007/1007950.png" alt="Achieve Icon">
+        <h3>🎯 Achieve</h3>
+        <p>Track your progress, earn certificates, and become confident in building your own web apps.</p>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

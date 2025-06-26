@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML & CSS Video Lectures</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* General Styling */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: rgba(0, 171, 14, 0.158);
+  background-size: 300% 300%;
+  animation: backgroundShift 25s ease-in-out infinite;
+  min-height: 100vh;
+  color: black;
+  padding: 40px 20px;
+}
+
+/* Background Animation */
+
+/* Animation Effects */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.5s ease forwards;
+}
+.slide-in {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: slideIn 1.2s ease forwards;
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+h1 {
+  text-align: center;
+  color: black;
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 40px 0 20px;
+  text-align: center;
+  color: black;
+}
+
+/* Video Card Grid */
+.video-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+.video-box {
+  width: 30%;
+  min-width: 250px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+     
+
+}
+
+.video-box:hover {
+   transform: scale(1.02);}
+
+.thumbnail {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.title {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #5a2a83;
+}
+
+/* Back button */
+.back-link {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  text-decoration: none;
+  color: white;
+  background-color: #00838F;
+  padding: 6px 12px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease;
+}
+.back-link:hover {
+  background-color: #093d42;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .video-box { width: 45%; }
+}
+@media (max-width: 480px) {
+  .video-box { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<a href="{{ url_for('dashboard') }}" class="back-link"><b>Back</b></a>
+
+<h1 class="fade-in">HTML & CSS Video Lectures</h1>
+
+<div class="section-title slide-in">HTML Tutorials</div>
+<div class="video-container">
+  <div class="video-box slide-in">
+    <a href="https://www.youtube.com/watch?v=UB1O30fR-EE" target="_blank">
+      <img class="thumbnail" src="https://img.youtube.com/vi/UB1O30fR-EE/hqdefault.jpg" alt="HTML Crash Course">
+    </a>
+    <div class="title">HTML Crash Course</div>
+  </div>
+
+  <div class="video-box slide-in">
+    <a href="https://www.youtube.com/watch?v=qz0aGYrrlhU" target="_blank">
+      <img class="thumbnail" src="https://img.youtube.com/vi/qz0aGYrrlhU/hqdefault.jpg" alt="HTML Full Tutorial">
+    </a>
+    <div class="title">HTML Full Tutorial</div>
+  </div>
+
+  <div class="video-box slide-in">
+    <a href="https://www.youtube.com/watch?v=pQN-pnXPaVg" target="_blank">
+      <img class="thumbnail" src="https://img.youtube.com/vi/pQN-pnXPaVg/hqdefault.jpg" alt="HTML Beginner's Guide">
+    </a>
+    <div class="title">HTML Beginner's Guide</div>
+  </div>
+</div>
+
+<div class="section-title slide-in">CSS Tutorials</div>
+<div class="video-container">
+  <div class="video-box slide-in">
+    <a href="https://www.youtube.com/watch?v=yfoY53QXEnI" target="_blank">
+      <img class="thumbnail" src="https://img.youtube.com/vi/yfoY53QXEnI/hqdefault.jpg" alt="CSS Crash Course">
+    </a>
+    <div class="title">CSS Crash Course</div>
+  </div>
+
+  <div class="video-box slide-in">
+    <a href="https://www.youtube.com/watch?v=1PnVor36_40" target="_blank">
+      <img class="thumbnail" src="https://img.youtube.com/vi/1PnVor36_40/hqdefault.jpg" alt="CSS for Beginners">
+    </a>
+    <div class="title">CSS for Beginners</div>
+  </div>
+
+  <div class="video-box slide-in">
+    <a href="https://www.youtube.com/watch?v=OXGznpKZ_sA" target="_blank">
+      <img class="thumbnail" src="https://img.youtube.com/vi/OXGznpKZ_sA/hqdefault.jpg" alt="Responsive CSS Tutorial">
+    </a>
+    <div class="title">Responsive CSS Tutorial</div>
+  </div>
+
+<div class="section-title slide-in">Javascript Tutorials</div>
+<div class="video-container">
+
+<div class="video-box slide-in">
+  <a href="https://www.youtube.com/watch?v=PkZNo7MFNFg" target="_blank">
+    <img class="thumbnail" src="https://img.youtube.com/vi/PkZNo7MFNFg/hqdefault.jpg" alt="JavaScript Tutorial for Beginners">
+  </a>
+  <div class="title">JS Tutorial for Beginners</div>
+</div>
+
+<div class="video-box slide-in">
+  <a href="https://www.youtube.com/watch?v=hdI2bqOjy3c" target="_blank">
+    <img class="thumbnail" src="https://img.youtube.com/vi/hdI2bqOjy3c/hqdefault.jpg" alt="JavaScript Crash Course">
+  </a>
+  <div class="title">JavaScript Crash Course</div>
+</div>
+
+<div class="video-box slide-in">
+  <a href="https://www.youtube.com/watch?v=Bv_5Zv5c-Ts" target="_blank">
+    <img class="thumbnail" src="https://img.youtube.com/vi/Bv_5Zv5c-Ts/hqdefault.jpg" alt="JS in One Video">
+  </a>
+  <div class="title">Learn JS in One Video</div>
+</div>
+
+<div class="video-box slide-in">
+  <a href="https://www.youtube.com/watch?v=W6NZfCO5SIk" target="_blank">
+    <img class="thumbnail" src="https://img.youtube.com/vi/W6NZfCO5SIk/hqdefault.jpg" alt="Modern JS Tutorial">
+  </a>
+  <div class="title">Modern JavaScript Guide</div>
+</div>
+
+<div class="video-box slide-in">
+  <a href="https://www.youtube.com/watch?v=jS4aFq5-91M" target="_blank">
+    <img class="thumbnail" src="https://img.youtube.com/vi/jS4aFq5-91M/hqdefault.jpg" alt="JavaScript DOM Tutorial">
+  </a>
+  <div class="title">DOM in JavaScript</div>
+</div>
+
+  
+</div>
+
+</body>
+</html>

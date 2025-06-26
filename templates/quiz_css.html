@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgba(0, 171, 14, 0.158);
+  background-size: 300% 300%;
+  animation: backgroundShift 25s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  min-height: 100vh;
+  color: black; /* Light text */
+}
+
+
+.quiz-container {
+    background: white;
+    padding: 20px;
+    width: 700px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(11, 12, 12);
+    padding: 5px;
+}
+
+.option {
+    background: #ac7dd4;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.option:hover {
+    background-color: #421d5c;
+}
+
+.correct {
+    background-color: green !important;
+    color: white;
+}
+
+.incorrect {
+    background-color: red !important;
+    color: white;
+}
+
+#nextBtn {
+    padding: 10px 20px;
+    background: #5a2a83;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    border: none;
+}
+
+#nextBtn:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+#score {
+    font-size: 14px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+#resetBtn {
+    display: none;
+    padding: 10px 20px;
+    background: #5a2a83;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    border: none;
+}
+
+#resetBtn:hover {
+    background: #eabcff;
+}
+
+#progressContainer {
+    background-color: #f7f8e7;
+    width: 100%;
+    border-radius: 20px;
+    height: 20px;
+    margin-top: 20px;
+}
+
+#progressBar {
+    width: 0%;
+    background-color: yellowgreen;
+    height: 100%;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    transition: width 0.4s ease;
+}
+    .back-header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .back-link {
+      text-decoration: none;
+      
+      color: white;
+      font-size: 16px;
+      background-color: #00838F;
+      padding: 6px 12px;
+      border-radius: 4px;
+      display: inline-block;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: #0c3c40;
+    }
+
+
+</style>
+
+</head>
+<body><div class="back-header">
+<a href="{{ url_for('dashboard') }}" class="back-link" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <b>Back</b>
+</a></div>
+    <h1 style="  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: black">Here's your quiz on CSS....</h1>
+
+    <div class="quiz-container">
+        <div id="progressContainer">
+            <div id="progressBar"></div>
+        </div>
+        <h2 id="question">Question text here</h2>
+        <div id="options"></div>
+        
+        <button id="nextBtn">Next</button>
+        
+        <div id="score"></div>
+        <button id="resetBtn">Reset Quiz</button>
+
+    </div>
+    
+    <script>const questions = [
+  {
+    question: "What does CSS stand for?",
+    options: ["Cascading Style Sheets", "Colorful Style Sheets", "Computer Style Sheets", "Creative Style Sheets"],
+    answer: "Cascading Style Sheets"
+  },
+  {
+    question: "Which CSS property is used to change the text color?",
+    options: ["text-color", "color", "font-color", "style"],
+    answer: "color"
+  },
+  {
+    question: "Which CSS property is used to change the background color?",
+    options: ["background-color", "color", "bgcolor", "background"],
+    answer: "background-color"
+  },
+  {
+    question: "How do you select an element with id 'main'?",
+    options: ["#main", ".main", "*main", "main"],
+    answer: "#main"
+  },
+  {
+    question: "Which property is used to change the font of an element?",
+    options: ["font-style", "font-family", "font-weight", "text-style"],
+    answer: "font-family"
+  },
+  {
+    question: "What is the correct way to comment in CSS?",
+    options: ["<!-- comment -->", "// comment", "/* comment */", "# comment"],
+    answer: "/* comment */"
+  },
+  {
+    question: "Which property is used to make text bold?",
+    options: ["font-style", "text-decoration", "font-weight", "font-bold"],
+    answer: "font-weight"
+  },
+  {
+    question: "How do you apply a style to all <p> elements?",
+    options: ["#p", ".p", "p", "*p"],
+    answer: "p"
+  },
+  {
+    question: "Which property adds space *inside* an element, between content and border?",
+    options: ["margin", "spacing", "padding", "border-spacing"],
+    answer: "padding"
+  },
+  {
+    question: "Which property is used to align text to the center?",
+    options: ["text-align", "align-text", "text-style", "alignment"],
+    answer: "text-align"
+  },
+  {
+    question: "Which CSS property makes text italic?",
+    options: ["font-style", "text-style", "text-transform", "font-type"],
+    answer: "font-style"
+  },
+  {
+    question: "Which value of position makes the element stay fixed on screen?",
+    options: ["absolute", "relative", "sticky", "fixed"],
+    answer: "fixed"
+  },
+  {
+    question: "How do you make a list with square bullets?",
+    options: ["list-type: square;", "list-style-type: square;", "bullet-type: square;", "style-list: square;"],
+    answer: "list-style-type: square;"
+  },
+  {
+    question: "What is the default position value of an HTML element?",
+    options: ["static", "relative", "absolute", "fixed"],
+    answer: "static"
+  },
+  {
+    question: "Which property controls the size of text?",
+    options: ["text-size", "font-size", "size", "font-style"],
+    answer: "font-size"
+  },
+  {
+    question: "Which property adds space *outside* an element's border?",
+    options: ["padding", "margin", "border-spacing", "outline"],
+    answer: "margin"
+  },
+  {
+    question: "Which shorthand property sets margin in all directions?",
+    options: ["margin-all", "margin-set", "margin", "set-margin"],
+    answer: "margin"
+  },
+  {
+    question: "What does the z-index property do?",
+    options: ["Controls zoom level", "Sets background transparency", "Changes stacking order", "Changes size of element"],
+    answer: "Changes stacking order"
+  },
+  {
+    question: "How do you apply a background image in CSS?",
+    options: ["background-image: url('image.jpg');", "img: background('image.jpg');", "bg-image: 'image.jpg';", "url(background='image.jpg');"],
+    answer: "background-image: url('image.jpg');"
+  },
+  {
+    question: "Which property is used to create rounded corners?",
+    options: ["border-radius", "corner-style", "round-border", "border-curve"],
+    answer: "border-radius"
+  }
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let highScore=localStorage.getItem('highScore')||0;
+let shuffledQuestions = shuffleArray([...questions]);
+
+const progressBar = document.getElementById("progressBar");
+const questionE1 = document.getElementById("question");
+const optionsE1 = document.getElementById("options");
+const nextBtn = document.getElementById("nextBtn");
+const scoreE1 = document.getElementById("score");
+const resetBtn = document.getElementById("resetBtn");
+
+function loadQuestion() {
+    questionE1.textContent = shuffledQuestions[currentQuestion].question;
+    optionsE1.innerHTML = "";
+
+    shuffledQuestions[currentQuestion].options.forEach(optionText => {
+        const option = document.createElement('div');
+        option.className = 'option';
+        option.textContent = optionText;
+        option.addEventListener('click', () => selectOption(option, optionText));
+        optionsE1.appendChild(option);
+    });
+
+    updateProgressBar();
+}
+
+function selectOption(selectedE1, selectedAnswer) {
+    const correctAnswer = shuffledQuestions[currentQuestion].answer;
+
+    // Disable all options after selection
+    Array.from(optionsE1.children).forEach(option => {
+        option.style.pointerEvents = 'none';
+        if (option.textContent === correctAnswer) {
+            option.classList.add('correct');
+        } else {
+            option.classList.add('incorrect');
+        }
+    });
+
+    // If correct answer selected, increment score
+    if (selectedAnswer === correctAnswer) {
+        score++;
+    }
+
+    // Enable the next button
+    nextBtn.disabled = false;
+}
+
+nextBtn.addEventListener('click', () => {
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+        loadQuestion();
+        nextBtn.disabled = true;
+    } else {
+        showScore();
+    }
+});
+
+resetBtn.addEventListener('click', () => {
+    currentQuestion = 0;
+    score = 0;
+    scoreE1.textContent = "";
+    nextBtn.style.display = 'inline-block';
+    resetBtn.style.display = 'none';
+    shuffledQuestions = shuffleArray([...questions]);
+    loadQuestion();
+    nextBtn.disabled = true;
+});
+
+
+function showScore() {
+    questionE1.textContent = "Quiz completed";
+    optionsE1.innerHTML = "";
+    nextBtn.style.display = 'none';
+
+    let message = "";
+    if (score === shuffledQuestions.length) {
+        message = "🔥🔥 Perfect Score! Great job!";
+      
+    } else if (score < shuffledQuestions.length / 2) {
+        message = "🫠🫠 Better luck next time!";
+    
+    } else {
+        message = "💫💫 Good Effort!";
+    }
+
+    
+    scoreE1.innerHTML = `Your score: ${score} out of ${shuffledQuestions.length}<br>${message}`;
+if (score > highScore) {
+    localStorage.setItem('highScore', score);
+    highScore = score;
+    scoreE1.innerHTML += `<br>New High Score!`;
+} else {
+    scoreE1.innerHTML += `<br>High Score: ${highScore}`;
+}
+
+
+
+
+
+
+    resetBtn.style.display = 'inline-block';
+    progressBar.style.width = "100%";
+    progressBar.textContent = "Done";
+  
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function updateProgressBar() {
+    const progress = ((currentQuestion + 1) / shuffledQuestions.length) * 100;
+    progressBar.style.width = `${progress}%`; // ✅ Fix: use backticks and `${}`
+    progressBar.textContent = `${currentQuestion + 1}/${shuffledQuestions.length}`; // ✅ Fix
+}
+
+loadQuestion();
+nextBtn.disabled = true;
+</script>
+
+</body>
+</html>
